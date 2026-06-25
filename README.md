@@ -54,8 +54,8 @@ Your agent writes a self-contained prompt, optionally pipes files as context, ru
 ### Option A — as a Claude Code plugin (one command)
 
 ```text
-/plugin marketplace add freestyler-arb/gemini-for-claude-code
-/plugin install gemini@gemini-for-claude-code
+/plugin marketplace add freestyler-arb/gemini-for-claude-and-codex
+/plugin install gemini@gemini-for-claude-and-codex
 ```
 
 This loads the three skills. You still need the `agy` CLI (above) and the `gemini` wrapper. Grab the wrapper from this repo, **read it** (it's short — mostly comments), then put it on your PATH:
@@ -70,8 +70,8 @@ mkdir -p ~/.local/bin && cp bin/gemini ~/.local/bin/gemini && chmod +x ~/.local/
 ### Option B — script install (Claude Code **and** Codex)
 
 ```bash
-git clone https://github.com/freestyler-arb/gemini-for-claude-code.git
-cd gemini-for-claude-code
+git clone https://github.com/freestyler-arb/gemini-for-claude-and-codex.git
+cd gemini-for-claude-and-codex
 ./install.sh
 ```
 
@@ -197,7 +197,7 @@ description: Use when the user wants an independent second-opinion review of cod
 ## 🗺 Repo layout
 
 ```
-gemini-for-claude-code/
+gemini-for-claude-and-codex/
 ├── .claude-plugin/
 │   ├── marketplace.json              # so others can /plugin marketplace add this repo
 │   └── plugin.json                   # Claude Code plugin manifest
@@ -235,7 +235,7 @@ Issues and PRs welcome. Good contributions: new model shortcuts as Google ships 
 - **`gemini-review`** — независимый разбор кода / диффа / плана.
 - **`gemini-research`** — ресёрч и переваривание больших контекстов.
 
-**Установка (плагином):** `/plugin marketplace add freestyler-arb/gemini-for-claude-code`, затем `/plugin install gemini@gemini-for-claude-code`.
+**Установка (плагином):** `/plugin marketplace add freestyler-arb/gemini-for-claude-and-codex`, затем `/plugin install gemini@gemini-for-claude-and-codex`.
 **Установка (скриптом, Claude + Codex):** `git clone …` → `./install.sh`.
 Дальше: добавить `~/.local/bin` в `PATH`, один раз войти `agy` (Google AI Pro), проверка — `gemini "скажи ок"`.
 
