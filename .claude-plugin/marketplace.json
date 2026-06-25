@@ -1,0 +1,37 @@
+{
+  "name": "gemini-for-claude-code",
+  "owner": {
+    "name": "freestyler-arb"
+  },
+  "metadata": {
+    "description": "Delegate reasoning, code review, and research to Google Gemini from Claude Code & Codex via the Antigravity CLI (agy), billed to your Google AI Pro subscription.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "gemini",
+      "source": "./",
+      "description": "Three skills — gemini-pro (delegation + model selection), gemini-review (adversarial code/diff/plan review), gemini-research (large-context research) — that route work to Google Gemini on your AI Pro subscription. Works in Claude Code and Codex.",
+      "version": "1.0.0",
+      "author": {
+        "name": "freestyler-arb"
+      },
+      "homepage": "https://github.com/freestyler-arb/gemini-for-claude-code",
+      "license": "MIT",
+      "keywords": [
+        "gemini",
+        "google-gemini",
+        "antigravity",
+        "agy",
+        "delegation",
+        "code-review",
+        "research",
+        "second-opinion",
+        "claude-code",
+        "codex"
+      ],
+      "category": "productivity",
+      "strict": false
+    }
+  ]
+}

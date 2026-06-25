@@ -1,0 +1,21 @@
+{
+  "name": "gemini",
+  "description": "Delegate reasoning, code review, and research to Google Gemini from Codex via the Antigravity CLI (agy), billed to your Google AI Pro / Ultra subscription instead of your agent's tokens.",
+  "version": "1.0.0",
+  "author": {
+    "name": "freestyler-arb"
+  },
+  "homepage": "https://github.com/freestyler-arb/gemini-for-claude-code",
+  "repository": "https://github.com/freestyler-arb/gemini-for-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "gemini",
+    "antigravity",
+    "agy",
+    "code-review",
+    "research",
+    "delegation",
+    "codex"
+  ],
+  "skills": "./skills/"
+}

@@ -1,0 +1,20 @@
+name: shellcheck
+on:
+  push:
+    paths: ["bin/**", "install.sh", ".github/workflows/shellcheck.yml"]
+  pull_request:
+    paths: ["bin/**", "install.sh", ".github/workflows/shellcheck.yml"]
+permissions:
+  contents: read
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # shellcheck ships preinstalled on ubuntu-latest runners; install as a fallback.
+      - name: Run ShellCheck
+        run: |
+          if ! command -v shellcheck >/dev/null; then
+            sudo apt-get update && sudo apt-get install -y shellcheck
+          fi
+          shellcheck bin/gemini install.sh

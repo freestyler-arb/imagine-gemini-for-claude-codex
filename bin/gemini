@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# gemini — a thin wrapper around the Antigravity CLI (`agy`) for headless,
+# one-shot prompts to Google Gemini.
+#
+# The heavy generation runs on Google's side using your Google AI Pro / Ultra
+# subscription quota. Your coding agent (Claude Code, Codex, etc.) only
+# orchestrates the call and relays the answer — so it does not spend the
+# agent's own tokens/credits on the generation itself.
+#
+# Usage:
+#   gemini "your question"                 # Gemini 3.1 Pro (High) by default
+#   gemini -m flash "your question"        # cheaper / faster on the weekly quota
+#   gemini -m pro   "your question"
+#   cat file.py | gemini "find bugs here"  # stdin is appended as context
+#
+# Model shortcuts: flash | flash-mid | flash-low | pro | pro-low | "<full name>"
+# Env overrides:   GEM_MODEL (default model),  AGY_BIN (path to the agy binary)
+set -euo pipefail
+
+model="${GEM_MODEL:-Gemini 3.1 Pro (High)}"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -m|--model)
+      case "${2:-}" in
+        flash)      model="Gemini 3.5 Flash (High)" ;;
+        flash-mid)  model="Gemini 3.5 Flash (Medium)" ;;
+        flash-low)  model="Gemini 3.5 Flash (Low)" ;;
+        pro)        model="Gemini 3.1 Pro (High)" ;;
+        pro-low)    model="Gemini 3.1 Pro (Low)" ;;
+        "")         echo "gemini: -m requires an argument" >&2; exit 2 ;;
+        *)          model="$2" ;;   # pass any full name straight through (see: agy models)
+      esac
+      shift 2 ;;
+    -h|--help)
+      cat >&2 <<'EOF'
+gemini — headless wrapper around the Antigravity CLI (agy) for Google Gemini.
+
+Usage:
+  gemini "your question"                 # Gemini 3.1 Pro (High) by default
+  gemini -m flash "your question"        # cheaper / faster on the weekly quota
+  cat file.py | gemini "find bugs here"  # stdin is appended as context
+
+Model shortcuts: flash | flash-mid | flash-low | pro | pro-low | "<full name>"
+List every model:  agy models
+Env: GEM_MODEL (default model), AGY_BIN (path to the agy binary)
+EOF
+      exit 0 ;;
+    --) shift; break ;;
+    -*) echo "gemini: unknown flag $1" >&2; exit 2 ;;
+    *)  break ;;
+  esac
+done
+
+prompt="$*"
+if [ ! -t 0 ]; then
+  ctx="$(cat)"
+  if [ -n "$ctx" ]; then
+    prompt="${prompt}"$'\n\n--- CONTEXT ---\n'"${ctx}"
+  fi
+fi
+[ -n "$prompt" ] || { echo 'usage: gemini [-m flash|pro|<model>] "prompt"   (context via stdin)' >&2; exit 2; }
+
+AGY="${AGY_BIN:-$(command -v agy || true)}"
+if [ -z "$AGY" ] || [ ! -x "$AGY" ]; then
+  {
+    echo "gemini: 'agy' (Antigravity CLI) not found on PATH."
+    echo "        Install it:  brew install --cask antigravity-cli"
+    echo "        Or point AGY_BIN at the binary:  AGY_BIN=/path/to/agy gemini ..."
+  } >&2
+  exit 127
+fi
+
+exec "$AGY" -p "$prompt" --model "$model"
