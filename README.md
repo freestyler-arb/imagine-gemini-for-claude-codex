@@ -178,6 +178,22 @@ python3 ~/.claude/skills/gemini-proxy/verify_gemini_proxy.py   # TDD: exactly N,
   snippet from `skills/gemini-proxy/hook/settings-hook-snippet.json` into your `.claude/settings.json`.
   The hook is fail-open and makes no network calls. Codex uses the skill + counter (no hook).
 
+## 💸 Cost & where the usage shows up
+
+Two things people get wrong:
+
+- **Gemini runs on your Google AI Pro / Ultra subscription (the Antigravity weekly compute quota), NOT the
+  pay-per-token Gemini API.** If you check **Gemini API** usage (AI Studio / Cloud console) you'll see
+  **zero** — that's expected; nothing goes through the API. Usage counts against your **AI Pro /
+  Antigravity** quota instead. Confirm the path works at all: `gemini "reply with one word: ok"`.
+- **`gemini-proxy` is a *quality* tool, not a token-saver for your coding agent.** The heavy Gemini
+  generation is free (it's on your Google sub), but the proxy adds **agent-side overhead** per routed
+  prompt — a tool round-trip plus reading Gemini's rewrite back into the agent's context (~hundreds to a
+  few thousand tokens). For trivial prompts that overhead isn't worth it, which is exactly why the **smart
+  filter skips trivial / config / meta**. Tight on agent credits? `proxy_state.py disable` and write
+  directly; enable it only when a sharper prompt is worth the round-trip. (The one-shot `gemini-pro`,
+  `gemini-review`, `gemini-research` skills don't have this standing overhead — they fire only when asked.)
+
 ## 🔒 Security & privacy
 
 This tool **sends your prompt and any piped context to Google Gemini** by design. Before you use it — and especially before you fork and publish — read **[SECURITY.md](SECURITY.md)**. The essentials:
