@@ -119,6 +119,25 @@ check("concurrency-exact-N", sum(_actives) == 20 and proxy_state.peek() == 0,
       f"active={sum(_actives)}/20, left={proxy_state.peek()} (TOCTOU lock holds)")
 proxy_state.disable()
 
+# 11. proxy_route.py — one-shot route: success prints improved msg + consumes ONCE; Gemini failure →
+#     fallback marker + raw msg + does NOT consume (so the agent answers raw and the counter is safe).
+ROUTE = HERE / "proxy_route.py"
+fake_ok = Path(_tmp) / "gemini_ok.sh"; fake_ok.write_text("#!/bin/sh\necho 'IMPROVED-MSG'\n"); os.chmod(fake_ok, 0o755)
+fake_bad = Path(_tmp) / "gemini_bad.sh"; fake_bad.write_text("#!/bin/sh\nexit 1\n"); os.chmod(fake_bad, 0o755)
+def run_route(raw, fake):
+    env = dict(os.environ); env["GEMINI_PROXY_STATE"] = STATE; env["GEMINI_BIN"] = str(fake)
+    return subprocess.run([sys.executable, str(ROUTE), raw], capture_output=True, text=True, env=env, timeout=20)
+check("route-exists", ROUTE.exists(), str(ROUTE))
+proxy_state.enable(3)
+r_ok = run_route("сделай X", fake_ok)
+check("route-ok-improved", "IMPROVED-MSG" in r_ok.stdout and "FALLBACK" not in r_ok.stdout)
+check("route-ok-consumes", proxy_state.peek() == 2, f"3->2 после route (peek={proxy_state.peek()})")
+r_bad = run_route("сделай Y", fake_bad)
+check("route-fallback", "FALLBACK" in r_bad.stdout and "сделай Y" in r_bad.stdout, "падение Gemini → fallback+raw")
+check("route-fallback-no-consume", proxy_state.peek() == 2, "fallback НЕ тратит счётчик")
+check("route-rc0", r_ok.returncode == 0 and r_bad.returncode == 0, "proxy_route всегда exit 0")
+proxy_state.disable()
+
 import shutil
 shutil.rmtree(_tmp, ignore_errors=True)
 

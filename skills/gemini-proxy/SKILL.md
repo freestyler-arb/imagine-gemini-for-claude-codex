@@ -37,15 +37,17 @@ python3 proxy_state.py enable 10
 ## Per-prompt protocol (ROUTED prompts only)
 1. Resolve the project rules file, else the shipped template:
    `$GEMINI_PROXY_RULES → ./.gemini-proxy-rules.txt → ./.claude/gemini-proxy-rules.txt → prompt-rules.template.txt`
-2. Pipe rules + the operator's raw message to Gemini (its rules file opens with the full role brief):
+2. Route in ONE shot — this resolves the rules, calls Gemini, **decrements the counter once**, and prints
+   the improved first-person message. It has a built-in fallback, so don't manage the counter by hand
+   (leaving `consume` to the agent desyncs it — agents forget service calls):
 ```bash
-RULES="${GEMINI_PROXY_RULES:-./.gemini-proxy-rules.txt}"; [ -f "$RULES" ] || RULES="<skill>/prompt-rules.template.txt"
-cat "$RULES" <(printf '%s' "<RAW MESSAGE>") \
-  | gemini "You are a senior prompt engineer. Rewrite the operator's message into a sharper, more detailed FIRST-PERSON version (their own voice), per the context. Output ONLY the improved message."
+python3 <skill>/proxy_route.py "<RAW MESSAGE>"
 ```
-3. Show the operator the improved message, then **answer it as if they had sent it — with the full chat
-   context, project rules, and memory** (Gemini only sharpened the wording, it did not replace the
-   conversation). Then spend exactly one: `python3 proxy_state.py consume` — only on a ROUTED prompt.
+3. Show the operator the improved message as a quoted block, then **answer it as if they had sent it —
+   with the full chat context, project rules, and memory** — and proceed without meta-commentary about
+   roles (don't narrate "now I answer my own prompt"). Do NOT run `proxy_state.py consume` yourself —
+   `proxy_route.py` already did. **Fallback:** if the output's first line is the `FALLBACK` marker, Gemini
+   was unavailable — answer the RAW message directly and briefly tell the operator.
 
 ## Guardrail
 The rewrite is the **operator's own message, polished — not a context-free instruction and not an
@@ -55,10 +57,10 @@ session's context). On conflict, follow safety and say so. **Never pipe secrets*
 
 ## Manage
 `proxy_state.py peek` (remaining) · `disable` (stop now) · re-invoke to reset N. State lives in
-`~/.gemini_proxy_state.json`. **Optional hard enforcement (Claude Code):** copy the `hooks` block from
+`~/.gemini_proxy_state.json`. The counter is decremented in exactly one place — `proxy_route.py` — so it
+can't double-count. **Optional hard enforcement (Claude Code):** copy the `hooks` block from
 `hook/settings-hook-snippet.json` into your `.claude/settings.json` — a fail-open `UserPromptSubmit` hook
-that peeks and injects the filter (no network; the agent still consumes only on a routed prompt). Codex
-uses the skill + counter (no hook).
+that only *peeks* and injects the filter reminder (no network, no decrement). Codex uses the skill (no hook).
 
 ## Verify
 `python3 verify_gemini_proxy.py` — exactly-N, auto-off, fail-safe, concurrency lock, hook (21/21).

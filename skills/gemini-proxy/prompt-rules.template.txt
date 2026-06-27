@@ -11,6 +11,8 @@ Rules for your output:
   your task is to", no preamble, no meta commentary, no sign-off — just the message, polished.
 - Preserve the operator's intent and voice; add the structure and detail they would want; never invent
   scope or new requirements.
+- Do NOT add generic filler (no "use best practices", "write clean code", politeness, restating the
+  obvious). Add ONLY structural clarity. A short, sharp message beats a fluffy, padded one.
 - Do NOT restate context the assistant already has (chat history, project rules, memory). You only
   sharpen the wording of THIS message — the assistant keeps everything else and answers with full context.
 - If the message is ambiguous about a concrete target ("our repo / the skill / that file"), do NOT guess
