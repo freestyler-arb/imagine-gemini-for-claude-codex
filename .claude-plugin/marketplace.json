@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Delegate reasoning, code review, and research to Google Gemini from Claude Code & Codex via the Antigravity CLI (agy), billed to your Google AI Pro subscription.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "gemini",
       "source": "./",
-      "description": "Three skills — gemini-pro (delegation + model selection), gemini-review (adversarial code/diff/plan review), gemini-research (large-context research) — that route work to Google Gemini on your AI Pro subscription. Works in Claude Code and Codex.",
-      "version": "1.0.0",
+      "description": "Four skills — gemini-pro (delegation + model selection), gemini-review (adversarial code/diff/plan review), gemini-research (large-context research), gemini-proxy (route your next N prompts through Gemini to be rewritten into detailed agent prompts) — that route work to Google Gemini on your AI Pro subscription. Works in Claude Code and Codex.",
+      "version": "1.1.0",
       "author": {
         "name": "freestyler-arb"
       },

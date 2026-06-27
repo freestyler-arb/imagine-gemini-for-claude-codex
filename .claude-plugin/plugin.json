@@ -1,7 +1,7 @@
 {
   "name": "gemini",
-  "description": "Delegate reasoning, code review, and research to Google Gemini from your coding agent — billed to your Google AI Pro / Ultra subscription via the Antigravity CLI (agy), not your agent's tokens. Skills: gemini-pro (general delegation + model selection via -m), gemini-review (adversarial code/diff/plan review), gemini-research (structured digestion of large context). Triggers: 'use Gemini', 'ask Gemini Pro', 'let Gemini review this', 'юзай Gemini'.",
-  "version": "1.0.0",
+  "description": "Delegate reasoning, code review, and research to Google Gemini from your coding agent — billed to your Google AI Pro / Ultra subscription via the Antigravity CLI (agy), not your agent's tokens. Skills: gemini-pro (general delegation + model selection via -m), gemini-review (adversarial code/diff/plan review), gemini-research (structured digestion of large context), gemini-proxy (route your next N prompts through Gemini to be rewritten into detailed prompts for the agent). Triggers: 'use Gemini', 'ask Gemini Pro', 'let Gemini review this', 'enable gemini proxy', 'юзай Gemini'.",
+  "version": "1.1.0",
   "author": {
     "name": "freestyler-arb"
   },

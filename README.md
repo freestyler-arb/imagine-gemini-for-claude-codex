@@ -24,6 +24,7 @@ A small **skill pack + CLI wrapper** that lets Claude Code (or Codex) hand a tas
 | **`gemini-pro`** | General one-shot delegation to Gemini (default **Gemini 3.1 Pro, High**) with **model selection** via `-m`. The freeform fallback. | *"ask Gemini Pro to…"*, *"use Gemini"*, *"юзай Gemini"* |
 | **`gemini-review`** | Independent **adversarial review** of code, a diff, a PR, or a plan, with severity-tagged findings. | *"let Gemini review this"*, *"second opinion before merge"* |
 | **`gemini-research`** | **Research / digestion** over large context — summaries, comparisons, "find X across all of this", structured sourced reports. | *"have Gemini dig into this module"*, *"compare these options"* |
+| **`gemini-proxy`** | **Automatic prompt engineering**: for your **next N substantive prompts** (default 10), Gemini rewrites each message you type into a sharper first-person version before the assistant acts — which still answers with full chat context. Smart filter skips trivial/config/meta; self-disables after N. | *"enable gemini proxy"*, *"polish my prompts with Gemini"*, *"переделывай мои промты через гемини"* |
 
 Plus **`bin/gemini`** — a dependency-free Bash wrapper over `agy -p` (model shortcuts + stdin context), and **`install.sh`** to put everything in place.
 
@@ -149,6 +150,34 @@ The skills are plain `SKILL.md` files, so the **same three skills work in Codex*
 - Codex loads skills natively — just phrase your request to match a skill, or name it.
 - The `gemini` wrapper and `agy` login are shared across both agents — install once, use from either.
 
+## 🔁 `gemini-proxy` — automatic prompt engineering
+
+The other three skills are one-shot delegation. **`gemini-proxy` turns Gemini into your prompt engineer.**
+Enable it, and for your **next N substantive prompts (default 10)** Gemini quietly **rewrites each message
+you type into a sharper, more detailed first-person version of itself** — as a senior prompt engineer
+would — *before* your assistant acts on it. The assistant still answers **with the full chat context, your
+project rules, and memory**; Gemini only polishes the wording, it does not replace the conversation. A
+**smart filter** sends real tasks (build / fix / audit / design / research / vague-big asks) through and
+skips trivial / config / meta chatter (greetings, "ok/thanks", settings), so the counter only spends on
+real work. It **self-disables** after N.
+
+```text
+/gemini-proxy            # enable for the next 10 prompts (or /gemini-proxy <N>)
+python3 ~/.claude/skills/gemini-proxy/proxy_state.py peek      # prompts remaining (0 = off)
+python3 ~/.claude/skills/gemini-proxy/proxy_state.py disable   # stop early
+python3 ~/.claude/skills/gemini-proxy/verify_gemini_proxy.py   # TDD: exactly N, auto-off, fail-safe (17/17)
+```
+
+- **Project rules.** The rewrite reads a project rules/canon file so Gemini knows your project:
+  `$GEMINI_PROXY_RULES` → `./.gemini-proxy-rules.txt` → `./.claude/gemini-proxy-rules.txt`, else the
+  shipped generic `prompt-rules.template.txt` (copy it and fill in your project's canon).
+- **The rewrite is a brief, not an override.** It never outranks your real instructions, your project's
+  safety rules, or the agent's own verification. **Never pipe secrets** into the rewrite.
+- **Optional hard enforcement (Claude Code).** By default the agent just follows the skill + a counter.
+  For deterministic per-prompt enforcement, opt in to the bundled `UserPromptSubmit` hook by copying the
+  snippet from `skills/gemini-proxy/hook/settings-hook-snippet.json` into your `.claude/settings.json`.
+  The hook is fail-open and makes no network calls. Codex uses the skill + counter (no hook).
+
 ## 🔒 Security & privacy
 
 This tool **sends your prompt and any piped context to Google Gemini** by design. Before you use it — and especially before you fork and publish — read **[SECURITY.md](SECURITY.md)**. The essentials:
@@ -207,7 +236,15 @@ gemini-for-claude-and-codex/
 ├── skills/
 │   ├── gemini-pro/SKILL.md
 │   ├── gemini-review/SKILL.md
-│   └── gemini-research/SKILL.md
+│   ├── gemini-research/SKILL.md
+│   └── gemini-proxy/                 # the N-prompt rewrite protocol
+│       ├── SKILL.md
+│       ├── proxy_state.py            # the counter (atomic, fail-safe)
+│       ├── prompt-rules.template.txt # generic rules template (copy into your project)
+│       ├── verify_gemini_proxy.py    # TDD: exactly N, auto-off, fail-safe
+│       └── hook/                     # optional Claude Code UserPromptSubmit hook (opt-in)
+│           ├── gemini_proxy_hook.py
+│           └── settings-hook-snippet.json
 ├── bin/gemini                        # the wrapper over `agy -p`
 ├── install.sh                        # installs wrapper + skills (Claude + Codex)
 ├── SECURITY.md
@@ -234,6 +271,7 @@ Issues and PRs welcome. Good contributions: new model shortcuts as Google ships 
 - **`gemini-pro`** — общая делегация + выбор модели (`-m flash|pro|…`).
 - **`gemini-review`** — независимый разбор кода / диффа / плана.
 - **`gemini-research`** — ресёрч и переваривание больших контекстов.
+- **`gemini-proxy`** — протокол: твои **следующие N промтов** (деф.10) Gemini переписывает в детальный промт для агента, агент исполняет его. Сам выключается после N. Правила проекта — из локального файла (`./.gemini-proxy-rules.txt`).
 
 **Установка (плагином):** `/plugin marketplace add freestyler-arb/gemini-for-claude-and-codex`, затем `/plugin install gemini@gemini-for-claude-and-codex`.
 **Установка (скриптом, Claude + Codex):** `git clone …` → `./install.sh`.

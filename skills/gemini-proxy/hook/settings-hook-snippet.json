@@ -1,0 +1,18 @@
+{
+  "_comment": "OPTIONAL hard enforcement for the gemini-proxy protocol (Claude Code only). NOT a live config — a snippet.",
+  "_how_to_enable": "Copy the 'hooks' block below into your project's .claude/settings.json (create it if absent; merge the 'hooks' key if it exists), then restart Claude Code. Adjust the path to where the skill is installed — after install.sh it is ~/.claude/skills/gemini-proxy/hook/gemini_proxy_hook.py. This is your explicit opt-in to running a script on every prompt in this project; the hook is fail-open and does nothing while the protocol counter is 0.",
+  "_safety": "hook/gemini_proxy_hook.py only reads/writes the local counter and prints an instruction; no network, no secrets, exits 0 on any error (cannot block a prompt).",
+  "_without_hook": "The protocol also works with no hook: the /gemini-proxy skill sets the counter and the agent follows the skill (rewrite via Gemini, then proxy_state.py consume). The hook is just a stricter layer, and Claude-Code-specific.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/skills/gemini-proxy/hook/gemini_proxy_hook.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
