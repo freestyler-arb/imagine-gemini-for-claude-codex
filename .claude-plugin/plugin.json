@@ -1,25 +1,26 @@
 {
-  "name": "gemini",
-  "description": "Delegate reasoning, code review, and research to Google Gemini from your coding agent — billed to your Google AI Pro / Ultra subscription via the Antigravity CLI (agy), not your agent's tokens. Skills: gemini-pro (general delegation + model selection via -m), gemini-review (adversarial code/diff/plan review), gemini-research (structured digestion of large context), gemini-proxy (route your next N prompts through Gemini to be rewritten into detailed prompts for the agent). Triggers: 'use Gemini', 'ask Gemini Pro', 'let Gemini review this', 'enable gemini proxy', 'юзай Gemini'.",
-  "version": "1.1.0",
-  "author": {
-    "name": "freestyler-arb"
-  },
-  "homepage": "https://github.com/freestyler-arb/gemini-for-claude-and-codex",
+  "name": "gemini-for-claude-and-codex",
+  "version": "1.0.0",
+  "description": "Delegate reasoning, code review, research, and prompt engineering to Google Gemini from Claude Code & Codex — billed to your Google AI Pro subscription (not agent tokens)",
+  "author": "freestyler-arb",
   "repository": "https://github.com/freestyler-arb/gemini-for-claude-and-codex",
   "license": "MIT",
-  "keywords": [
-    "gemini",
-    "google-gemini",
-    "antigravity",
-    "agy",
-    "delegation",
-    "code-review",
-    "research",
-    "second-opinion",
-    "claude-code",
-    "codex",
-    "skills",
-    "ai-pro"
-  ]
+  "skills": [
+    "gemini-pro",
+    "gemini-review", 
+    "gemini-research",
+    "gemini-proxy"
+  ],
+  "commands": [
+    "gemini -m pro <prompt>",
+    "gemini -m flash <prompt>",
+    "gemini-review <target>",
+    "gemini-research <query>",
+    "gemini-proxy <N>"
+  ],
+  "tags": ["gemini", "google-ai", "reasoning", "code-review", "research", "prompt-engineering", "codex"],
+  "requirements": {
+    "macos": "brew install --cask antigravity-cli",
+    "linux": "antigravity-cli (via package manager)"
+  }
 }
