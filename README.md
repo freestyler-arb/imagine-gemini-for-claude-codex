@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🛰️ Gemini for Claude Code & Codex
+# 🛰️ Imagine — Gemini for Claude Code & Codex
 
-**Delegate reasoning, code review, and research to Google Gemini — from inside your coding agent.**
+**Delegate reasoning, code review, research — and automatic prompt engineering — to Google Gemini, from inside your coding agent.**
 
 Paid for by your **Google AI Pro / Ultra** subscription via the Antigravity CLI (`agy`), *not* by your agent's tokens.
 
