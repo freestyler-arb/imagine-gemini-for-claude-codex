@@ -12,9 +12,11 @@ the heavy thinking runs on your **Google AI Pro / Ultra** subscription (`agy`), 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-orange)](#-install)
 [![Codex](https://img.shields.io/badge/Codex-compatible-blue)](#-using-with-codex)
-[![Shell](https://img.shields.io/badge/shell-bash-lightgrey)](bin/gemini)
+|![Shell](https://img.shields.io/badge/shell-bash-lightgrey)](bin/gemini)
 
 </div>
+
+> ⚠️ **Security:** Every `gemini` call sends your prompt + piped files to Google verbatim. **Never pipe secrets** (`.env`, keys, tokens). **Never run Gemini's output without reading it first** — piped files can carry prompt injection, and Gemini can be wrong. Read [SECURITY.md](SECURITY.md).
 
 ---
 
