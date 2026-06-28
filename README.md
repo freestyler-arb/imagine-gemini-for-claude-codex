@@ -194,6 +194,22 @@ Two things people get wrong:
   directly; enable it only when a sharper prompt is worth the round-trip. (The one-shot `gemini-pro`,
   `gemini-review`, `gemini-research` skills don't have this standing overhead — they fire only when asked.)
 
+### Rough numbers (order of magnitude)
+
+Assuming Opus-tier pricing (~$15 / 1M input, ~$75 / 1M output) with prompt caching — your mileage varies:
+
+| | Cost |
+|---|---|
+| **Gemini's rewrite itself** | **$0** of agent credits — billed to your AI Pro / Antigravity weekly quota |
+| Extra agent tokens per *routed* prompt | ~200–400 in + ~200–500 out (one tool round-trip + reading the rewrite back) |
+| ≈ extra agent spend per routed prompt | **~$0.02–0.05** (≈ ₽2–5) |
+| As **% over answering directly** | **~5–15%** — higher on small prompts, lower on big tasks |
+| Trivial / config / meta prompts | **$0** — the smart filter skips them (never routed) |
+
+So ~10 routed prompts ≈ **$0.2–0.5** of extra agent spend, while the Gemini "thinking" is free. Net: a
+small but real overhead you trade for a sharper prompt — worth it on substantive work, skipped on noise.
+Tight on agent credits? `proxy_state.py disable` and write directly.
+
 ## 🔒 Security & privacy
 
 This tool **sends your prompt and any piped context to Google Gemini** by design. Before you use it — and especially before you fork and publish — read **[SECURITY.md](SECURITY.md)**. The essentials:
