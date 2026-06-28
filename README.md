@@ -60,8 +60,8 @@ Your agent writes a self-contained prompt, optionally pipes files as context, ru
 ### Option A — as a Claude Code plugin (one command)
 
 ```text
-/plugin marketplace add freestyler-arb/gemini-for-claude-and-codex
-/plugin install imagine@gemini-for-claude-and-codex
+/plugin marketplace add freestyler-arb/imagine-gemini-for-claude-codex
+/plugin install imagine@imagine-gemini-for-claude-codex
 ```
 
 This loads the four skills. You still need the `agy` CLI (above) and the `gemini` wrapper. Grab the wrapper from this repo, **read it** (it's short — mostly comments), then put it on your PATH:
@@ -76,8 +76,8 @@ mkdir -p ~/.local/bin && cp bin/gemini ~/.local/bin/gemini && chmod +x ~/.local/
 ### Option B — script install (Claude Code **and** Codex)
 
 ```bash
-git clone https://github.com/freestyler-arb/gemini-for-claude-and-codex.git
-cd gemini-for-claude-and-codex
+git clone https://github.com/freestyler-arb/imagine-gemini-for-claude-codex.git
+cd imagine-gemini-for-claude-codex
 ./install.sh
 ```
 
@@ -263,7 +263,7 @@ description: Use when the user wants an independent second-opinion review of cod
 ## 🗺 Repo layout
 
 ```
-gemini-for-claude-and-codex/
+imagine-gemini-for-claude-codex/
 ├── .claude-plugin/
 │   ├── marketplace.json              # so others can /plugin marketplace add this repo
 │   └── plugin.json                   # Claude Code plugin manifest
@@ -310,7 +310,7 @@ Issues and PRs welcome. Good contributions: new model shortcuts as Google ships 
 - **`gemini-research`** — ресёрч и переваривание больших контекстов.
 - **`gemini-proxy`** — протокол: твои **следующие N промтов** (деф.10) Gemini переписывает в детальный промт для агента, агент исполняет его. Сам выключается после N. Правила проекта — из локального файла (`./.gemini-proxy-rules.txt`).
 
-**Установка (плагином):** `/plugin marketplace add freestyler-arb/gemini-for-claude-and-codex`, затем `/plugin install imagine@gemini-for-claude-and-codex`.
+**Установка (плагином):** `/plugin marketplace add freestyler-arb/imagine-gemini-for-claude-codex`, затем `/plugin install imagine@imagine-gemini-for-claude-codex`.
 **Установка (скриптом, Claude + Codex):** `git clone …` → `./install.sh`.
 Дальше: добавить `~/.local/bin` в `PATH`, один раз войти `agy` (Google AI Pro), проверка — `gemini "скажи ок"`.
 

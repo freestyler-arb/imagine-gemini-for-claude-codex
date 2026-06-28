@@ -1,5 +1,5 @@
 {
-  "name": "gemini-for-claude-and-codex",
+  "name": "imagine-gemini-for-claude-codex",
   "owner": {
     "name": "freestyler-arb"
   },
@@ -16,7 +16,7 @@
       "author": {
         "name": "freestyler-arb"
       },
-      "homepage": "https://github.com/freestyler-arb/gemini-for-claude-and-codex",
+      "homepage": "https://github.com/freestyler-arb/imagine-gemini-for-claude-codex",
       "license": "MIT",
       "keywords": [
         "gemini",
