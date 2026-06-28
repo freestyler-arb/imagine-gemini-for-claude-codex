@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "gemini",
+      "name": "imagine",
       "source": "./",
       "description": "Four skills — gemini-pro (delegation + model selection), gemini-review (adversarial code/diff/plan review), gemini-research (large-context research), gemini-proxy (route your next N prompts through Gemini to be rewritten into detailed agent prompts) — that route work to Google Gemini on your AI Pro subscription. Works in Claude Code and Codex.",
       "version": "1.1.0",

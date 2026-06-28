@@ -1,5 +1,5 @@
 {
-  "name": "gemini",
+  "name": "imagine",
   "description": "Delegate reasoning, code review, research, and prompt-rewrite to Google Gemini from Codex via the Antigravity CLI (agy), billed to your Google AI Pro / Ultra subscription instead of your agent's tokens. Skills: gemini-pro, gemini-review, gemini-research, gemini-proxy (route your next N prompts through Gemini to be rewritten).",
   "version": "1.1.0",
   "author": {
