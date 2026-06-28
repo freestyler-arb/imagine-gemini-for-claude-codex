@@ -64,7 +64,7 @@ Your agent writes a self-contained prompt, optionally pipes files as context, ru
 /plugin install imagine@gemini-for-claude-and-codex
 ```
 
-This loads the three skills. You still need the `agy` CLI (above) and the `gemini` wrapper. Grab the wrapper from this repo, **read it** (it's short — mostly comments), then put it on your PATH:
+This loads the four skills. You still need the `agy` CLI (above) and the `gemini` wrapper. Grab the wrapper from this repo, **read it** (it's short — mostly comments), then put it on your PATH:
 
 ```bash
 # clone or download bin/gemini, review it, then:
@@ -81,7 +81,7 @@ cd gemini-for-claude-and-codex
 ./install.sh
 ```
 
-This installs the `gemini` wrapper to `~/.local/bin/` and the three skills to **both** `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (Codex). Override targets with `BIN_DIR=…` / `SKILLS_DIRS=…`.
+This installs the `gemini` wrapper to `~/.local/bin/` and the four skills to **both** `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (Codex). Override targets with `BIN_DIR=…` / `SKILLS_DIRS=…`.
 
 ### Then: one-time Antigravity login
 
@@ -149,7 +149,7 @@ Run `agy models` to see everything your subscription exposes. Set a different de
 
 ## 🤖 Using with Codex
 
-The skills are plain `SKILL.md` files, so the **same three skills work in Codex** with no changes:
+The skills are plain `SKILL.md` files, so the **same four skills work in Codex** with no changes:
 
 - `./install.sh` already copies them to `~/.agents/skills/` (Codex's personal-skills directory).
 - Codex loads skills natively — just phrase your request to match a skill, or name it.
@@ -157,7 +157,7 @@ The skills are plain `SKILL.md` files, so the **same three skills work in Codex*
 
 ## 🔁 `gemini-proxy` — automatic prompt engineering
 
-The other three skills are one-shot delegation. **`gemini-proxy` turns Gemini into your prompt engineer.**
+The other four skills are one-shot delegation. **`gemini-proxy` turns Gemini into your prompt engineer.**
 Enable it, and for your **next N substantive prompts (default 10)** Gemini quietly **rewrites each message
 you type into a sharper, more detailed first-person version of itself** — as a senior prompt engineer
 would — *before* your assistant acts on it. The assistant still answers **with the full chat context, your
@@ -243,7 +243,7 @@ description: Use when the user wants an independent second-opinion review of cod
 ## Common mistakes …
 ```
 
-**The `description` is the single most important line** — it's all the agent sees when deciding whether to load the skill. Rules these three skills follow:
+**The `description` is the single most important line** — it's all the agent sees when deciding whether to load the skill. Rules these four skills follow:
 
 - **Describe *when to use*, not *what it does*.** Start with **"Use when…"** and list concrete triggers/symptoms. If you summarise the workflow here, the agent tends to follow the one-liner instead of reading the full skill.
 - **Write in the third person** — it's injected into the system prompt.
