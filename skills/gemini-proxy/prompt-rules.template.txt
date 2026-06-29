@@ -29,6 +29,15 @@ Rules for your output:
 --- PROJECT CANON (don't contradict) ---
 <One paragraph: what the project is, the active code path, how tests run, what must stay true.>
 
+--- STANDING EXPECTATIONS (fold into the improved message as a SHORT tail — habits for EVERY task) ---
+# These are the things you always want, so the rewrite reminds the assistant of them in one terse line —
+# not a wall of text. Delete what doesn't fit your project; add your own.
+- <e.g. keep a running task tracker; don't drop sub-tasks or mark things done that aren't.>
+- <e.g. flag any unfinished / truncated / 0-byte output and finish it to the original plan, not "what came out".>
+- <e.g. use the available skills (tests / review / security) instead of ad-hoc one-offs.>
+- <e.g. for risky or money/critical changes, get an INDEPENDENT review before shipping.>
+- <e.g. quick goal-drift check: is this still aligned with the original intent?>
+
 --- HARD GUARDRAILS (don't phrase anything that breaks these) ---
 - <e.g. safety invariants that must hold: ...>
 - <e.g. don't touch <area> without explicit sign-off.>

@@ -17,6 +17,17 @@ answers that improved message **with the full chat context, project rules, and m
 sharpens the wording, it does not replace the conversation. Trivial / config / meta prompts are skipped.
 **Self-disables after N.** Control layer only: it calls nothing but the counter and the `gemini` wrapper.
 
+## Ground it first (the step that makes this good, not generic)
+A rewrite with no project context is mediocre. Copy the shipped template into the project and fill it with
+the project's **canon**, **safety invariants/guardrails**, and **standing expectations** (the habits you
+want on every task — keep a tracker, finish work to the plan, use the right skills, get an independent
+review on risky/money changes, goal-drift check). Then Gemini rewrites WITH your project in mind.
+```bash
+cp <skill>/prompt-rules.template.txt ./.gemini-proxy-rules.txt   # then edit: CANON / STANDING EXPECTATIONS / GUARDRAILS
+```
+Resolution order: `$GEMINI_PROXY_RULES → ./.gemini-proxy-rules.txt → ./.claude/gemini-proxy-rules.txt → prompt-rules.template.txt`.
+The richer this file, the sharper **and safer** every rewrite — it's the highest-leverage thing you do here.
+
 ## When to route vs skip (the smart filter)
 Decide BEFORE calling Gemini. Bias to ROUTE for real work; SKIP only clear noise. Skipped prompts never
 spend the counter, so **N = N routed prompts**.
